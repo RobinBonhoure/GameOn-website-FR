@@ -1,8 +1,18 @@
 // DOM Elements
 const closeButton = document.querySelector("#close-modal");
-var firstInput = document.getElementById("first");
-var lastInput = document.getElementById("last");
-var emailInput = document.getElementById("email");
+const firstInput = document.getElementById("first");
+const lastInput = document.getElementById("last");
+const emailInput = document.getElementById("email");
+const validation = document.getElementById("validation");
+const conditionsRadio = document.getElementById("checkbox1");
+
+// VAR
+var first;
+var last;
+var email;
+var errorMsgFirstPrinted = false;
+var informations = [];
+var firstChecked = false;
 
 // close modal event
 closeButton.addEventListener("click", closeModal);
@@ -16,34 +26,32 @@ function closeModal() {
 function validate(event) {
     event.preventDefault();
 
-    let first = document.forms["reserve"]["first"].value;
-    let last = document.forms["reserve"]["last"].value;
-    let email = document.forms["reserve"]["email"].value;
+    // inputs value
+    first = document.forms["reserve"]["first"].value;
+    last = document.forms["reserve"]["last"].value;
+    email = document.forms["reserve"]["email"].value;
 
-    checkName (first);
-    checkName (last);
-    checkEmail (email);
+    // get all form data
+    const data = Object.fromEntries(new FormData(document.querySelector('form')).entries());
+    console.log(data.first)
 
-    if (first == "") {
-        var errorMsgFirst = document.createElement("span");
-        errorMsgFirst.className = "error-message error-first";
-        errorMsgFirst.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
-        printError(firstInput, errorMsgFirst);
-    } else {
-        document.querySelector(".error-first").remove();
-    }
-    if (last == "") {
-        var errorMsgLast = document.createElement("span");
-        errorMsgLast.className = "error-message";
-        errorMsgLast.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
-        printError(lastInput, errorMsgLast);
-    }
-    if (email == "") {
-        var errorMsgEmail = document.createElement("span");
-        errorMsgEmail.className = "error-message";
-        errorMsgEmail.innerHTML = "Veuillez entrer une adresse email valable.";
-        printError(emailInput, errorMsgEmail);
-    }
+    // checkName(data.first, 1);
+    // checkName(last);
+    // checkEmail(email);
+    checkConditions(conditionsRadio);
+
+    // if (last == "") {
+    //     var errorMsgLast = document.createElement("span");
+    //     errorMsgLast.className = "error-message";
+    //     errorMsgLast.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+    //     printError(lastInput, errorMsgLast);
+    // }
+    // if (email == "") {
+    //     var errorMsgEmail = document.createElement("span");
+    //     errorMsgEmail.className = "error-message";
+    //     errorMsgEmail.innerHTML = "Veuillez entrer une adresse email valable.";
+    //     printError(emailInput, errorMsgEmail);
+    // }
     // else {
     //     closeModal();
     //     console.log(first);
@@ -53,15 +61,56 @@ function validate(event) {
 
 }
 
-// check first
-function checkEmail (input) {
-    const reMail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return reMail.test(String(input).toLowerCase());
+// check email
+// function checkEmail(input) {
+//     const reMail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//     console.log(reMail.test(String(input).toLowerCase()))
+// return reMail.test(String(input).toLowerCase());
+// }
+
+// check utilisation conditions
+function checkConditions(radio) {
+    console.log(radio.checked);
 }
 
-function checkName (input) {
-    const reName = /^(([A-Za-z]+[\-\']?)*([A-Za-z]+)?\s)+([A-Za-z]+[\-\']?)*([A-Za-z]+)?$/;
-    return reName.test(String(input).toLowerCase());
+// check name
+function checkName(input) {
+
+    return new Promise(function (resolve, reject) {
+
+        // const reName = /^([0-9]*[a-zA-Z]){2,}[0-9]*$/;
+        var reName = /^.{2,}$/;
+
+        if (reName.test(String(input).toLowerCase())) {
+            resolve("success");
+        } else {
+            reject("error");
+        }
+
+    }).then(function (result) {
+        console.log(result);
+
+        if (errorMsgFirstPrinted == true) {
+            document.querySelector(".error-first").remove();
+            errorMsgFirstPrinted = false;
+        }
+
+        firstChecked = true;
+
+        printInformations();
+
+    }).catch(function (error) {
+        console.log(error);
+
+        if (errorMsgFirstPrinted == false) {
+            var errorMsgFirst = document.createElement("span");
+            errorMsgFirst.className = "error-message error-first";
+            errorMsgFirst.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+            printError(firstInput, errorMsgFirst);
+            errorMsgFirstPrinted = true;
+        }
+
+    });
 }
 
 
@@ -69,3 +118,87 @@ function checkName (input) {
 function printError(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
+
+// show all informations
+function printInformations() {
+    if (firstChecked) {
+        console.log(JSON.stringify({ informations }));
+        closeModal();
+        validation.style.display = "flex";
+    }
+}
+
+// close validation
+validation.addEventListener('click', function () {
+    validation.style.display = "none";
+})
+
+
+var jsonObj = {
+    'first': [
+        {
+            'id': '1',
+            'value': '',
+            'regex': '/^.{2,}$/',
+            'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
+        }
+    ],
+    'last': [
+        {
+            'id': '2',
+            'value': '',
+            'regex': '/^.{2,}$/',
+            'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
+        }
+    ],
+    'email': [
+        {
+            'id': '3',
+            'value': '',
+            'regex': '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/',
+            'errorMessage': 'Veuillez entrer une adresse mail valide.',
+        }
+    ],
+    'naissance': [
+        {
+            'id': '4',
+            'value': '',
+            'regex': '',
+            'errorMessage': 'Veuillez entrer une date de naissance.',
+        }
+    ],
+    'tournois': [
+        {
+            'id': '5',
+            'value': '',
+            'regex': '/^[0-9]*$/',
+            'errorMessage': 'Veuillez entrer un nombre de tournois.',
+        }
+    ],
+    'ville': [
+        {
+            'id': '6',
+            'value': '',
+            'regex': '',
+            'errorMessage': 'Veuillez choisir une ville.',
+        }
+    ],
+    'conditions': [
+        {
+            'id': '7',
+            'value': '',
+            'regex': '',
+            'errorMessage': 'Vous devez vérifier que vous acceptez les termes et conditions.',
+        }
+    ],
+    'newsletter': [
+        {
+            'id': '8',
+            'value': '',
+            'regex': '',
+            'errorMessage': '',
+        }
+    ]
+};
+
+// console.log(jsonObj.first['regex'])
