@@ -35,10 +35,10 @@ function validate(event) {
     const data = Object.fromEntries(new FormData(document.querySelector('form')).entries());
     console.log(data.first)
 
-    // checkName(data.first, 1);
+    checkName(data.first);
     // checkName(last);
     // checkEmail(email);
-    checkConditions(conditionsRadio);
+    // checkConditions(conditionsRadio);
 
     // if (last == "") {
     //     var errorMsgLast = document.createElement("span");
@@ -75,20 +75,9 @@ function checkConditions(radio) {
 
 // check name
 function checkName(input) {
+    var reName = eval(jsonObj.first['regex']);
 
-    return new Promise(function (resolve, reject) {
-
-        // const reName = /^([0-9]*[a-zA-Z]){2,}[0-9]*$/;
-        var reName = /^.{2,}$/;
-
-        if (reName.test(String(input).toLowerCase())) {
-            resolve("success");
-        } else {
-            reject("error");
-        }
-
-    }).then(function (result) {
-        console.log(result);
+    if (reName.test(String(input).toLowerCase())) {
 
         if (errorMsgFirstPrinted == true) {
             document.querySelector(".error-first").remove();
@@ -98,9 +87,8 @@ function checkName(input) {
         firstChecked = true;
 
         printInformations();
-
-    }).catch(function (error) {
-        console.log(error);
+        
+    } else {
 
         if (errorMsgFirstPrinted == false) {
             var errorMsgFirst = document.createElement("span");
@@ -109,8 +97,7 @@ function checkName(input) {
             printError(firstInput, errorMsgFirst);
             errorMsgFirstPrinted = true;
         }
-
-    });
+    }
 }
 
 
@@ -135,70 +122,61 @@ validation.addEventListener('click', function () {
 
 
 var jsonObj = {
-    'first': [
-        {
-            'id': '1',
-            'value': '',
-            'regex': '/^.{2,}$/',
-            'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
-        }
-    ],
-    'last': [
-        {
-            'id': '2',
-            'value': '',
-            'regex': '/^.{2,}$/',
-            'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
-        }
-    ],
-    'email': [
-        {
-            'id': '3',
-            'value': '',
-            'regex': '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/',
-            'errorMessage': 'Veuillez entrer une adresse mail valide.',
-        }
-    ],
-    'naissance': [
-        {
-            'id': '4',
-            'value': '',
-            'regex': '',
-            'errorMessage': 'Veuillez entrer une date de naissance.',
-        }
-    ],
-    'tournois': [
-        {
-            'id': '5',
-            'value': '',
-            'regex': '/^[0-9]*$/',
-            'errorMessage': 'Veuillez entrer un nombre de tournois.',
-        }
-    ],
-    'ville': [
-        {
-            'id': '6',
-            'value': '',
-            'regex': '',
-            'errorMessage': 'Veuillez choisir une ville.',
-        }
-    ],
-    'conditions': [
-        {
-            'id': '7',
-            'value': '',
-            'regex': '',
-            'errorMessage': 'Vous devez vérifier que vous acceptez les termes et conditions.',
-        }
-    ],
-    'newsletter': [
-        {
-            'id': '8',
-            'value': '',
-            'regex': '',
-            'errorMessage': '',
-        }
-    ]
+    'first': {
+        'id': '1',
+        'value': '',
+        'regex': '/^.{2,}$/',
+        'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
+    },
+    'last': {
+        'id': '2',
+        'value': '',
+        'regex': '/^.{2,}$/',
+        'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
+    }
+    ,
+    'email': {
+        'id': '3',
+        'value': '',
+        'regex': '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/',
+        'errorMessage': 'Veuillez entrer une adresse mail valide.',
+    }
+    ,
+    'naissance': {
+        'id': '4',
+        'value': '',
+        'regex': '',
+        'errorMessage': 'Veuillez entrer une date de naissance.',
+    }
+    ,
+    'tournois': {
+        'id': '5',
+        'value': '',
+        'regex': '/^[0-9]*$/',
+        'errorMessage': 'Veuillez entrer un nombre de tournois.',
+    }
+    ,
+    'ville': {
+        'id': '6',
+        'value': '',
+        'regex': '',
+        'errorMessage': 'Veuillez choisir une ville.',
+    }
+    ,
+    'conditions': {
+        'id': '7',
+        'value': '',
+        'regex': '',
+        'errorMessage': 'Vous devez vérifier que vous acceptez les termes et conditions.',
+    }
+    ,
+    'newsletter': {
+        'id': '8',
+        'value': '',
+        'regex': '',
+        'errorMessage': '',
+    }
+
 };
 
 // console.log(jsonObj.first['regex'])
