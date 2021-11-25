@@ -15,27 +15,18 @@ const location3 = document.getElementById("location3");
 const location4 = document.getElementById("location4");
 const location5 = document.getElementById("location5");
 const location6 = document.getElementById("location6");
-var data = [];
 
 // VAR
-// var first;
-// var last;
-// var email;
-var errorMsgFirstPrinted = false;
-var errorMsgLastPrinted = false;
-var errorMsgEmailPrinted = false;
-var errorMsgBirthdatePrinted = false;
-var errorMsgQuantityPrinted = false;
-var errorMsgTownPrinted = false;
-var errorMsgConditionsPrinted = false;
-var informations = [];
-var firstChecked = false;
-var lastChecked = false;
-var emailChecked = false;
-var birthdateChecked = false;
-var quantityChecked = false;
-var townChecked = false;
-var conditionsChecked = false;
+let data = [];
+let errorMsgFirstPrinted = false;
+let errorMsgLastPrinted = false;
+let errorMsgEmailPrinted = false;
+let errorMsgBirthdatePrinted = false;
+let errorMsgQuantityPrinted = false;
+let errorMsgTownPrinted = false;
+let errorMsgConditionsPrinted = false;
+let informations = [];
+let noError = true;
 
 // submit form
 function validate(event) {
@@ -56,17 +47,17 @@ function validate(event) {
 
 // check first
 function checkFirst(input) {
-    var regex = eval(jsonObj.first['regex']);
-    var errorMessage = jsonObj.first['errorMessage'];
+    let regex = eval(jsonObj.first['regex']);
+    let errorMessage = jsonObj.first['errorMessage'];
     if (regex.test(String(input).toLowerCase())) {
-        if (errorMsgFirstPrinted == true) {
+        if (errorMsgFirstPrinted) {
             document.querySelector(".error-first").remove();
             errorMsgFirstPrinted = false;
         }
-        firstChecked = true;
     } else {
-        if (errorMsgFirstPrinted == false) {
-            var errorMsgFirst = document.createElement("span");
+        noError = false;
+        if (!errorMsgFirstPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgFirst = document.createElement("span");
             errorMsgFirst.className = "error-message error-first";
             errorMsgFirst.innerHTML = `${errorMessage}`;
             printError(firstInput, errorMsgFirst);
@@ -77,17 +68,17 @@ function checkFirst(input) {
 
 // check last
 function checkLast(input) {
-    var regex = eval(jsonObj.last['regex']);
-    var errorMessage = jsonObj.last['errorMessage'];
+    let regex = eval(jsonObj.last['regex']);
+    let errorMessage = jsonObj.last['errorMessage'];
     if (regex.test(String(input).toLowerCase())) {
-        if (errorMsgLastPrinted == true) {
+        if (errorMsgLastPrinted) {
             document.querySelector(".error-last").remove();
             errorMsgLastPrinted = false;
         }
-        lastChecked = true;
     } else {
-        if (errorMsgLastPrinted == false) {
-            var errorMsgLast = document.createElement("span");
+        noError = false;
+        if (!errorMsgLastPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgLast = document.createElement("span");
             errorMsgLast.className = "error-message error-last";
             errorMsgLast.innerHTML = `${errorMessage}`;
             printError(lastInput, errorMsgLast);
@@ -98,18 +89,17 @@ function checkLast(input) {
 
 // check email
 function checkEmail(input) {
-    var regex = eval(jsonObj.email['regex']);
-    var errorMessage = jsonObj.email['errorMessage'];
-    console.log(regex.test(String(input).toLowerCase()));
+    let regex = eval(jsonObj.email['regex']);
+    let errorMessage = jsonObj.email['errorMessage'];
     if (regex.test(String(input).toLowerCase())) {
-        if (errorMsgEmailPrinted == true) {
+        if (errorMsgEmailPrinted) {
             document.querySelector(".error-email").remove();
             errorMsgEmailPrinted = false;
         }
-        emailChecked = true;
     } else {
-        if (errorMsgEmailPrinted == false) {
-            var errorMsgEmail = document.createElement("span");
+        noError = false;
+        if (!errorMsgEmailPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgEmail = document.createElement("span");
             errorMsgEmail.className = "error-message error-email";
             errorMsgEmail.innerHTML = `${errorMessage}`;
             printError(emailInput, errorMsgEmail);
@@ -120,38 +110,37 @@ function checkEmail(input) {
 
 // check birthdate
 function checkBirthdate(input) {
-    var errorMessage = jsonObj.birthdate['errorMessage'];
+    let errorMessage = jsonObj.birthdate['errorMessage'];
     if (input.length === 0) {
-        if (errorMsgBirthdatePrinted == false) {
-            var errorMsgBirthdate = document.createElement("span");
+        noError = false;
+        if (!errorMsgBirthdatePrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgBirthdate = document.createElement("span");
             errorMsgBirthdate.className = "error-message error-birthdate";
             errorMsgBirthdate.innerHTML = `${errorMessage}`;
             printError(birthdateInput, errorMsgBirthdate);
             errorMsgBirthdatePrinted = true;
         }
     } else {
-        if (errorMsgBirthdatePrinted == true) {
+        if (errorMsgBirthdatePrinted) {
             document.querySelector(".error-birthdate").remove();
             errorMsgBirthdatePrinted = false;
         }
-        birthdateChecked = true;
     }
 }
 
 // check quantity
 function checkQuantity(input) {
-    var regex = eval(jsonObj.quantity['regex']);
-    var errorMessage = jsonObj.quantity['errorMessage'];
-    console.log(regex.test(String(input).toLowerCase()));
+    let regex = eval(jsonObj.quantity['regex']);
+    let errorMessage = jsonObj.quantity['errorMessage'];
     if (regex.test(String(input).toLowerCase()) && input.length !== 0) {
-        if (errorMsgQuantityPrinted == true) {
+        if (errorMsgQuantityPrinted) {
             document.querySelector(".error-quantity").remove();
             errorMsgQuantityPrinted = false;
         }
-        quantityChecked = true;
     } else {
-        if (errorMsgQuantityPrinted == false) {
-            var errorMsgQuantity = document.createElement("span");
+        noError = false;
+        if (!errorMsgQuantityPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgQuantity = document.createElement("span");
             errorMsgQuantity.className = "error-message error-quantity";
             errorMsgQuantity.innerHTML = `${errorMessage}`;
             printError(quantityInput, errorMsgQuantity);
@@ -163,16 +152,16 @@ function checkQuantity(input) {
 // check town
 
 function checkTown(input1, input2, input3, input4, input5, input6) {
-    var errorMessage = jsonObj.town['errorMessage'];
+    let errorMessage = jsonObj.town['errorMessage'];
     if (input1.checked || input2.checked || input3.checked || input4.checked || input5.checked || input6.checked) {
-        if (errorMsgTownPrinted == true) {
+        if (errorMsgTownPrinted) {
             document.querySelector(".error-town").remove();
             errorMsgTownPrinted = false;
         }
-        townChecked = true;
     } else {
-        if (errorMsgTownPrinted == false) {
-            var errorMsgTown = document.createElement("span");
+        noError = false;
+        if (!errorMsgTownPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgTown = document.createElement("span");
             errorMsgTown.className = "error-message error-town";
             errorMsgTown.innerHTML = `${errorMessage}`;
             printError(townInput, errorMsgTown);
@@ -183,16 +172,16 @@ function checkTown(input1, input2, input3, input4, input5, input6) {
 
 // check utilisation conditions
 function checkConditions(input) {
-    var errorMessage = jsonObj.conditions['errorMessage'];
+    let errorMessage = jsonObj.conditions['errorMessage'];
     if (input.checked) {
-        if (errorMsgConditionsPrinted == true) {
+        if (errorMsgConditionsPrinted) {
             document.querySelector(".error-conditions").remove();
             errorMsgConditionsPrinted = false;
         }
-        conditionsChecked = true;
     } else {
-        if (errorMsgConditionsPrinted == false) {
-            var errorMsgConditions = document.createElement("span");
+        noError = false;
+        if (!errorMsgConditionsPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
+            let errorMsgConditions = document.createElement("span");
             errorMsgConditions.className = "error-message error-conditions";
             errorMsgConditions.innerHTML = `${errorMessage}`;
             printError(conditionsLabel, errorMsgConditions);
@@ -208,14 +197,20 @@ function printError(referenceNode, newNode) {
 
 // get all informations
 function getData() {
-    if (firstChecked && lastChecked && emailChecked && birthdateChecked && quantityChecked && townChecked && conditionsChecked) {
-        
-        console.log([data.first, data.last, data.email, data.birthdate, data.quantity, document.forms["reserve"]["location"].value, checkbox2.checked]);
-
+    if (noError) {
+        jsonObj.first.value = data.first;
+        jsonObj.last.value = data.last;
+        jsonObj.email.value = data.email;
+        jsonObj.birthdate.value = data.birthdate;
+        jsonObj.quantity.value = data.quantity;
+        jsonObj.town.value = document.forms["reserve"]["location"].value;
+        jsonObj.newsletter.value = checkbox2.checked;
+        console.log([jsonObj.first.value, jsonObj.last.value, jsonObj.email.value, jsonObj.birthdate.value, jsonObj.quantity.value, jsonObj.town.value, jsonObj.newsletter.value])
         document.querySelector('form').reset();
-
         closeModal();
         validation.style.display = "flex";
+    } else {
+        noError = true;
     }
 }
 
@@ -234,58 +229,50 @@ function closeModal() {
 
 
 
-var jsonObj = {
+let jsonObj = {
     'first': {
-        'id': '1',
         'value': '',
-        'regex': '/^.{2,}$/',
+        'regex': /^.{2,}$/,
         'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
     }
     ,
     'last': {
-        'id': '2',
         'value': '',
-        'regex': '/^.{2,}$/',
+        'regex': /^.{2,}$/,
         'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du nom.',
     }
     ,
     'email': {
-        'id': '3',
         'value': '',
-        'regex': '/^[^\s@]+@[^\s@]+\.[^\s@]+$/',
+        'regex': /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/,
         'errorMessage': 'Veuillez entrer une adresse mail valide.',
     }
     ,
     'birthdate': {
-        'id': '4',
         'value': '',
         'regex': '',
         'errorMessage': 'Veuillez entrer une date de naissance.',
     }
     ,
     'quantity': {
-        'id': '5',
         'value': '',
-        'regex': '/^[0-9]*$/',
+        'regex': /^[0-9]*$/,
         'errorMessage': 'Veuillez entrer un nombre de tournois.',
     }
     ,
     'town': {
-        'id': '6',
         'value': '',
         'regex': '',
         'errorMessage': 'Veuillez choisir une ville.',
     }
     ,
     'conditions': {
-        'id': '7',
         'value': '',
         'regex': '',
         'errorMessage': 'Vous devez vérifier que vous acceptez les termes et conditions.',
     }
     ,
     'newsletter': {
-        'id': '8',
         'value': '',
         'regex': '',
         'errorMessage': '',
