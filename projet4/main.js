@@ -18,6 +18,7 @@ const location6 = document.getElementById("location6");
 
 // VAR
 let data = [];
+// MESSAGES D ERREUR AFFICHES OU NON
 let errorMsgFirstPrinted = false;
 let errorMsgLastPrinted = false;
 let errorMsgEmailPrinted = false;
@@ -25,7 +26,8 @@ let errorMsgBirthdatePrinted = false;
 let errorMsgQuantityPrinted = false;
 let errorMsgTownPrinted = false;
 let errorMsgConditionsPrinted = false;
-let informations = [];
+
+// UN CHAMP A T IL UNE ERREUR
 let noError = true;
 
 // submit form
@@ -47,14 +49,16 @@ function validate(event) {
 
 // check first
 function checkFirst(input) {
+    // RECUPERE REGEX ET MESSAGE ERREUR DU JSON
     let regex = eval(jsonObj.first['regex']);
     let errorMessage = jsonObj.first['errorMessage'];
+    // NO ERROR
     if (regex.test(String(input).toLowerCase())) {
         if (errorMsgFirstPrinted) {
             document.querySelector(".error-first").remove();
             errorMsgFirstPrinted = false;
         }
-    } else {
+    } else { //ERROR
         noError = false;
         if (!errorMsgFirstPrinted) { // affichage du message d'erreur si il n'est pas déjà affiché
             let errorMsgFirst = document.createElement("span");
