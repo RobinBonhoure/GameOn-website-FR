@@ -5,20 +5,42 @@
     margin-bottom: 10px;
 }
 
-.validation {
-    padding: 50px;
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    position: fixed;
-    color: white;
-    top: 0;
+.button-close {
+    font-weight: 300;
+    text-align: center;
+}
+
+.button-close_container {
+    position: absolute;
+    bottom: 40px;
     left: 0;
-    z-index: 100;
-    background-color: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+
+.modal-validate {
+    height: 750px;
+    display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.validation-message {
+    text-align: center;
+    font-weight: 300;
+    font-size: 36px;
+}
+
+.bground2 {
     display: none;
-    font-size: 40px;
-    font-weight: bold;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: rgba(26, 39, 156, 0.4);
 }

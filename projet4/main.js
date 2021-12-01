@@ -1,4 +1,5 @@
 // DOM Elements
+const validation = document.querySelector(".bground2");
 const closeButton = document.querySelector("#close-modal");
 const firstInput = document.getElementById("first");
 const lastInput = document.getElementById("last");
@@ -8,13 +9,14 @@ const quantityInput = document.getElementById("quantity");
 const townInput = document.getElementById("town");
 const conditionsInput = document.getElementById("checkbox1");
 const conditionsLabel = document.getElementById("checkbox1Label");
-const validation = document.getElementById("validation");
 const location1 = document.getElementById("location1");
 const location2 = document.getElementById("location2");
 const location3 = document.getElementById("location3");
 const location4 = document.getElementById("location4");
 const location5 = document.getElementById("location5");
 const location6 = document.getElementById("location6");
+const crossValidate = document.querySelector("#cross-validate");
+const closeModalButton = document.querySelector("#close-modal_button");
 
 // VAR
 let data = [];
@@ -211,7 +213,7 @@ function getData() {
         console.log([jsonObj.first.value, jsonObj.last.value, jsonObj.email.value, jsonObj.birthdate.value, jsonObj.quantity.value, jsonObj.town.value, jsonObj.newsletter.value])
         document.querySelector('form').reset();
         closeModal();
-        validation.style.display = "flex";
+        validation.style.display = "initial";
     } else {
         noError = true;
     }
@@ -221,7 +223,10 @@ function getData() {
 closeButton.addEventListener("click", closeModal);
 
 // close validation message
-validation.addEventListener('click', function () {
+closeModalButton.addEventListener('click', function () {
+    validation.style.display = "none";
+})
+crossValidate.addEventListener('click', function () {
     validation.style.display = "none";
 })
 
