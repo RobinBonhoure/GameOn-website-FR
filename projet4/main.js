@@ -53,7 +53,7 @@ function checkFirst(input) {
     let regex = eval(jsonObj.first['regex']);
     let errorMessage = jsonObj.first['errorMessage'];
     // NO ERROR
-    if (regex.test(String(input).toLowerCase())) {
+    if (regex.test(String(input).toLowerCase()) && input.replace(/\s/g, '').length) {
         if (errorMsgFirstPrinted) {
             document.querySelector(".error-first").remove();
             errorMsgFirstPrinted = false;
@@ -74,7 +74,7 @@ function checkFirst(input) {
 function checkLast(input) {
     let regex = eval(jsonObj.last['regex']);
     let errorMessage = jsonObj.last['errorMessage'];
-    if (regex.test(String(input).toLowerCase())) {
+    if (regex.test(String(input).toLowerCase()) && input.replace(/\s/g, '').length) {
         if (errorMsgLastPrinted) {
             document.querySelector(".error-last").remove();
             errorMsgLastPrinted = false;
@@ -154,7 +154,6 @@ function checkQuantity(input) {
 }
 
 // check town
-
 function checkTown(input1, input2, input3, input4, input5, input6) {
     let errorMessage = jsonObj.town['errorMessage'];
     if (input1.checked || input2.checked || input3.checked || input4.checked || input5.checked || input6.checked) {
@@ -236,13 +235,13 @@ function closeModal() {
 let jsonObj = {
     'first': {
         'value': '',
-        'regex': /^.{2,}$/,
+        'regex': /^[A-zÀ-ú\-\’ ]{2,}$/,
         'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
     }
     ,
     'last': {
         'value': '',
-        'regex': /^.{2,}$/,
+        'regex': /^[A-zÀ-ú\-\’ ]{2,}$/,
         'errorMessage': 'Veuillez entrer 2 caractères ou plus pour le champ du nom.',
     }
     ,
